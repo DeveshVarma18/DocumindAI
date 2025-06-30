@@ -19,13 +19,32 @@ export default function ContactForm() {
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    toast.success("Message sent successfully! We'll get back to you within 24 hours.");
-    setFormData({ name: '', email: '', company: '', role: '', message: '' });
-    setIsSubmitting(false);
-  };
+  e.preventDefault();
+  setIsSubmitting(true);
+
+  try {
+    const response = await fetch('/api/saveContact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      toast.success('Message sent successfully!');
+      setFormData({ name: '', email: '', company: '', role: '', message: '' });
+    } else {
+      toast.error('Submission failed. Please try again.');
+    }
+  } catch (err) {
+    console.error(err);
+    toast.error('Something went wrong.');
+  }
+
+  setIsSubmitting(false);
+};
+
 
   const handleChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
