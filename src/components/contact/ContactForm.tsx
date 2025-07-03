@@ -23,9 +23,11 @@ export default function ContactForm() {
   setIsSubmitting(true);
 
   try {
-    const response = await fetch('/api/saveContact', {
+    const response = await fetch('http://localhost:3001/api/contact', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(formData),
     });
 
@@ -35,11 +37,11 @@ export default function ContactForm() {
       toast.success('Message sent successfully!');
       setFormData({ name: '', email: '', company: '', role: '', message: '' });
     } else {
-      toast.error('Submission failed. Please try again.');
+      toast.error(result.error || 'Submission failed. Please try again.');
     }
   } catch (err) {
-    console.error(err);
-    toast.error('Something went wrong.');
+    console.error('Contact form error:', err);
+    toast.error('Something went wrong. Please try again later.');
   }
 
   setIsSubmitting(false);
