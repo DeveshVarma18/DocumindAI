@@ -27,15 +27,6 @@ A Node.js Express backend API for handling contact form submissions with MongoDB
    npm install
    ```
 
-2. **Configure environment variables:**
-   Create a `.env` file in the server directory with your MongoDB Atlas URI:
-   ```env
-   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/database?retryWrites=true&w=majority
-   PORT=3001
-   NODE_ENV=development
-   FRONTEND_URL=http://localhost:5173
-   ```
-
 3. **Start the server:**
    ```bash
    # Development mode with auto-restart
