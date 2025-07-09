@@ -27,8 +27,7 @@ const ContactsTable: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage] = useState(1);
 
   const API_BASE_URL = 'http://localhost:3001/api';
 

@@ -130,7 +130,7 @@ const UserDashboard: React.FC = () => {
             <div>
               <p className="text-sm text-gray-400">Role</p>
               <Badge className={user?.role === 'admin' ? 'bg-purple-600' : 'bg-blue-600'}>
-                {user?.role?.charAt(0).toUpperCase() + user?.role?.slice(1)}
+                {user?.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : 'N/A'}
               </Badge>
             </div>
           </div>

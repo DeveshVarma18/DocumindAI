@@ -5,10 +5,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/AuthContext';
-import { Users, Search, Edit, Trash2, Eye, Calendar, CreditCard, BarChart3, Mail, MessageSquare } from 'lucide-react';
+import { Users, Search, Edit, Trash2, Calendar, CreditCard, BarChart3, Mail } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 import ContactsTable from './ContactsTable';
@@ -29,18 +29,6 @@ interface User {
   lastLogin: string | null;
 }
 
-interface Contact {
-  _id: string;
-  name: string;
-  email: string;
-  company: string;
-  role: string;
-  message: string;
-  status: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
 interface DashboardStats {
   totalUsers: number;
   totalContacts: number;
@@ -51,7 +39,6 @@ interface DashboardStats {
 const AdminDashboard: React.FC = () => {
   const { token } = useAuth();
   const [users, setUsers] = useState<User[]>([]);
-  const [contacts, setContacts] = useState<Contact[]>([]);
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -59,9 +46,6 @@ const AdminDashboard: React.FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [contactsPage, setContactsPage] = useState(1);
-  const [contactsTotalPages, setContactsTotalPages] = useState(1);
-  const [contactSearchTerm, setContactSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('users');
 
   const API_BASE_URL = 'http://localhost:3001/api';
