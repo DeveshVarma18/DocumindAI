@@ -4,6 +4,8 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import contactRoutes from './routes/contactRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
 import clientPromise from './config/database.js';
 
 // Load environment variables
@@ -40,8 +42,8 @@ app.use(limiter); // Apply rate limiting to all routes
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:5173',
   credentials: true,
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
 app.use(express.json({ limit: '10mb' }));
@@ -79,6 +81,8 @@ app.get('/api/db-check', async (req, res) => {
 
 // API Routes
 app.use('/api/contact', contactLimiter, contactRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Handle 404 errors
 app.use('*', (req, res) => {
@@ -103,8 +107,12 @@ app.listen(PORT, () => {
   console.log(`📝 API endpoints:`);
   console.log(`   POST http://localhost:${PORT}/api/contact - Submit contact form`);
   console.log(`   GET  http://localhost:${PORT}/api/contact - Get contact messages`);
+  console.log(`   GET  http://localhost:${PORT}/api/contact/export - Export all contacts to CSV`);
+  console.log(`   GET  http://localhost:${PORT}/api/contact/export-by-date?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD - Export by date range`);
+  console.log(`   GET  http://localhost:${PORT}/api/contact/summary - Get contact summary by date`);
   console.log(`   GET  http://localhost:${PORT}/health - Health check`);
   console.log(`   GET  http://localhost:${PORT}/api/db-check - Database connection check`);
+  console.log(`📁 CSV exports will be saved to: server/exports/`);
 });
 
 export default app;

@@ -2,11 +2,16 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Bot, Menu, X, Sparkles } from 'lucide-react';
+import { Bot, Menu, X, Sparkles, User, LogOut, Settings, Shield } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { useAuth } from '@/contexts/AuthContext';
+import AuthModal from '@/components/auth/AuthModal';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const location = useLocation();
+  const { user, logout } = useAuth();
 
   const navigation = [
     { name: 'Home', href: '/' },
@@ -51,7 +56,68 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* CTA Buttons */}
+          {/* Authentication Buttons */}
+          <div className="hidden md:flex items-center space-x-4">
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="flex items-center space-x-2 border-gray-600 hover:bg-gray-700">
+                    <User className="h-4 w-4" />
+                    <span>{user.name}</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56 bg-gray-800 border-gray-700">
+                  <DropdownMenuItem asChild>
+                    <Link to="/dashboard" className="flex items-center space-x-2 text-gray-300 hover:text-white">
+                      <User className="h-4 w-4" />
+                      <span>Dashboard</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  {user.role === 'admin' && (
+                    <DropdownMenuItem asChild>
+                      <Link to="/admin" className="flex items-center space-x-2 text-gray-300 hover:text-white">
+                        <Shield className="h-4 w-4" />
+                        <span>Admin Panel</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuItem asChild>
+                    <Link to="/settings" className="flex items-center space-x-2 text-gray-300 hover:text-white">
+                      <Settings className="h-4 w-4" />
+                      <span>Settings</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className="bg-gray-700" />
+                  <DropdownMenuItem
+                    onClick={logout}
+                    className="flex items-center space-x-2 text-red-400 hover:text-red-300 cursor-pointer"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    <span>Sign Out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => setIsAuthModalOpen(true)}
+                  className="border-gray-600 hover:bg-gray-700"
+                >
+                  Sign In
+                </Button>
+                <Link to="/contact">
+                  <Button 
+                    size="sm" 
+                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                  >
+                    Book a Call
+                  </Button>
+                </Link>
+              </>
+            )}
+          </div>
 
 
           {/* Mobile menu button */}
@@ -100,6 +166,13 @@ export default function Navbar() {
           </div>
         )}
       </div>
+      
+      {/* Auth Modal */}
+      <AuthModal 
+        isOpen={isAuthModalOpen} 
+        onClose={() => setIsAuthModalOpen(false)} 
+        defaultTab="login" 
+      />
     </nav>
   );
 }
