@@ -119,26 +119,26 @@ const ImageUploadGUI: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen p-6">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen w-full p-6">
+      <div className="w-full">
         {/* Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-12">
           <h1 className="text-4xl lg:text-5xl font-black text-white mb-4">
             AI Image{' '}
             <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
               Classifier
             </span>
           </h1>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-4xl mx-auto">
             Upload your images and let our deep learning model analyze them instantly
           </p>
         </div>
 
         {/* Upload Area */}
-        <Card className="mb-8 bg-gray-800/50 border-gray-700/50 backdrop-blur-sm">
-          <CardContent className="p-8">
+        <Card className="mb-12 bg-gray-800/50 border-gray-700/50 backdrop-blur-sm">
+          <CardContent className="p-12">
             <div
-              className={`border-2 border-dashed rounded-xl p-12 text-center transition-all duration-300 ${
+              className={`border-2 border-dashed rounded-xl p-16 text-center transition-all duration-300 ${
                 isDragOver
                   ? 'border-purple-400 bg-purple-400/10'
                   : 'border-gray-600 hover:border-purple-500 hover:bg-purple-500/5'
@@ -148,19 +148,19 @@ const ImageUploadGUI: React.FC = () => {
               onDragLeave={handleDragLeave}
             >
               <div className="flex flex-col items-center space-y-4">
-                <div className="p-4 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full">
-                  <Upload className="h-12 w-12 text-purple-400" />
+                <div className="p-6 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full">
+                  <Upload className="h-16 w-16 text-purple-400" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white mb-2">
+                  <h3 className="text-2xl font-bold text-white mb-4">
                     Drop your images here
                   </h3>
-                  <p className="text-gray-400 mb-4">
+                  <p className="text-lg text-gray-400 mb-6">
                     or click to browse files
                   </p>
                   <Button
                     onClick={() => fileInputRef.current?.click()}
-                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-8 py-3 text-lg"
                   >
                     <ImageIcon className="h-4 w-4 mr-2" />
                     Select Images
@@ -181,17 +181,17 @@ const ImageUploadGUI: React.FC = () => {
 
         {/* Uploaded Images */}
         {uploadedImages.length > 0 && (
-          <Card className="mb-8 bg-gray-800/50 border-gray-700/50 backdrop-blur-sm">
-            <CardContent className="p-6">
+          <Card className="mb-12 bg-gray-800/50 border-gray-700/50 backdrop-blur-sm">
+            <CardContent className="p-8">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold text-white">
+                <h3 className="text-2xl font-bold text-white">
                   Uploaded Images ({uploadedImages.length})
                 </h3>
                 <div className="flex gap-3">
                   <Button
                     onClick={processImages}
                     disabled={isProcessing}
-                    className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
+                    className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 px-6 py-3"
                   >
                     {isProcessing ? (
                       <>
@@ -205,30 +205,30 @@ const ImageUploadGUI: React.FC = () => {
                   <Button
                     onClick={clearAll}
                     variant="outline"
-                    className="border-red-600 text-red-400 hover:bg-red-600/10"
+                    className="border-red-600 text-red-400 hover:bg-red-600/10 px-6 py-3"
                   >
                     Clear All
                   </Button>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6">
                 {uploadedImages.map((image, index) => (
                   <div key={image.id} className="relative group">
-                    <div className="aspect-square rounded-lg overflow-hidden bg-gray-700">
+                    <div className="aspect-square rounded-xl overflow-hidden bg-gray-700 shadow-lg">
                       <img
                         src={image.preview}
                         alt={`Upload ${index + 1}`}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
                     <button
                       onClick={() => removeImage(image.id)}
-                      className="absolute -top-2 -right-2 p-1 bg-red-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="absolute -top-2 -right-2 p-2 bg-red-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
                     >
-                      <X className="h-4 w-4 text-white" />
+                      <X className="h-3 w-3 text-white" />
                     </button>
-                    <div className="mt-2 text-sm text-gray-400 truncate">
+                    <div className="mt-3 text-xs text-gray-400 truncate text-center">
                       {image.file.name}
                     </div>
                   </div>
@@ -241,47 +241,47 @@ const ImageUploadGUI: React.FC = () => {
         {/* Results */}
         {results.length > 0 && (
           <Card className="bg-gray-800/50 border-gray-700/50 backdrop-blur-sm">
-            <CardContent className="p-6">
-              <h3 className="text-xl font-bold text-white mb-6 flex items-center">
+            <CardContent className="p-8">
+              <h3 className="text-2xl font-bold text-white mb-8 flex items-center">
                 <CheckCircle className="h-5 w-5 text-green-400 mr-2" />
                 Prediction Results
               </h3>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 {results.map((result, index) => (
-                  <div key={index} className="bg-gray-700/50 rounded-lg p-4">
-                    <div className="aspect-square rounded-lg overflow-hidden mb-4 bg-gray-600">
+                  <div key={index} className="bg-gray-700/50 rounded-xl p-6 hover:bg-gray-700/70 transition-colors">
+                    <div className="aspect-square rounded-xl overflow-hidden mb-6 bg-gray-600 shadow-lg">
                       <img
                         src={uploadedImages[index]?.preview}
                         alt={`Result ${index + 1}`}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                       />
                     </div>
                     
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-400">Prediction:</span>
-                        <span className="font-bold text-white">{result.prediction}</span>
+                        <span className="text-gray-400">Prediction:</span>
+                        <span className="font-bold text-white text-lg">{result.prediction}</span>
                       </div>
                       
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-400">Confidence:</span>
-                        <span className="font-bold text-green-400">
+                        <span className="text-gray-400">Confidence:</span>
+                        <span className="font-bold text-green-400 text-lg">
                           {(result.confidence * 100).toFixed(1)}%
                         </span>
                       </div>
                       
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-400">Time:</span>
-                        <span className="text-sm text-gray-300">
+                        <span className="text-gray-400">Time:</span>
+                        <span className="text-gray-300">
                           {result.processing_time.toFixed(2)}s
                         </span>
                       </div>
 
                       {/* Confidence Bar */}
-                      <div className="w-full bg-gray-600 rounded-full h-2 mt-3">
+                      <div className="w-full bg-gray-600 rounded-full h-3 mt-4">
                         <div
-                          className="bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full transition-all duration-500"
+                          className="bg-gradient-to-r from-green-500 to-emerald-500 h-3 rounded-full transition-all duration-500"
                           style={{ width: `${result.confidence * 100}%` }}
                         />
                       </div>
@@ -295,12 +295,12 @@ const ImageUploadGUI: React.FC = () => {
 
         {/* Instructions */}
         <Card className="mt-8 bg-gray-800/30 border-gray-700/30 backdrop-blur-sm">
-          <CardContent className="p-6">
+          <CardContent className="p-8">
             <div className="flex items-start space-x-3">
               <AlertCircle className="h-5 w-5 text-blue-400 mt-0.5" />
               <div>
-                <h4 className="font-semibold text-white mb-2">How to use:</h4>
-                <ul className="text-sm text-gray-400 space-y-1">
+                <h4 className="font-semibold text-white mb-4 text-lg">How to use:</h4>
+                <ul className="text-gray-400 space-y-2">
                   <li>• Drag and drop image files or click to browse</li>
                   <li>• Supports JPG, PNG, GIF, and other common image formats</li>
                   <li>• Upload multiple images at once for batch processing</li>
